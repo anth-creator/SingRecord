@@ -1,0 +1,21 @@
+name: 打包SingRecord APK
+on: push
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: 配置JDK17
+        uses: actions/setup-java@v4
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+      - name: 授予执行权限
+        run: chmod +x gradlew
+      - name: 编译生成APK
+        run: ./gradlew assembleDebug
+      - name: 上传安装包
+        uses: actions/upload-artifact@v4
+        with:
+          name: SingRecord安装包
+          path: app/build/outputs/apk/debug/app-debug.apk
